@@ -3,7 +3,7 @@
      #home{
      	position:fixed;
      	top:25%;
-     	left:25%;
+     	left:15%;
      	text-transform: translate(-50%, -50%);
         font-size: 2em;
      }
