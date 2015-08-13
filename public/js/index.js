@@ -458,40 +458,40 @@ function init(){
 
   function subVote(event){
     if(voted==1){
-      $.notify("You can't vote more than once.","warn");
+      $('#subVote'+round).notify("You can't vote more than once.","warn",{position:"top"});
     }
     else{
      for(var i=0; i<event.data.participants.length;i++){
         if($('#'+event.data.participants[i].id +'voted'+round).is(':checked')){
           voted=1;
           socket.emit('newStatus',{stage:2, reciever:event.data.participants[i].id, sender:playerId, RoomNo:RoomNo});
-          $.notify("You have submitted your vote.","success");
+          $('#subVote'+round).notify("You have submitted your vote.","success",{position:"top"});
         }
       }
       if($('#notvoted'+round).is(':checked')){
         voted=1;
         socket.emit('newStatus',{stage:2, reciever:-1, sender:playerId, RoomNo:RoomNo});
-        $.notify("You have submitted your vote.","success");
+        $('#subVote'+round).notify("You have submitted your vote.","success",{position:"top"});
       }
     }
   }
 
   function subVote2(event){
     if(voted==1){
-      $.notify("You can't vote more than once.","warn");
+      $('#subVote2'+round).notify("You can't vote more than once.","warn",{position:"top"});
     }
       else{
      for(var i=0; i<event.data.max.length;i++){
         if($('#'+event.data.max[i] +'voted2'+round).is(':checked')){
           voted=1;
           socket.emit('newStatus',{stage:3, reciever:event.data.max[i], sender:playerId, RoomNo:RoomNo, max:event.data.max});
-          $.notify("You have submitted your vote.","success");
+          $('#subVote2'+round).notify("You have submitted your vote.","success",{position:"top"});
         }
       }
       if($('#notvoted2'+round).is(':checked')){
         voted=1;
         socket.emit('newStatus',{stage:3, reciever:-1, sender:playerId, RoomNo:RoomNo,max:event.data.max});
-        $.notify("You have submitted your vote.","success");
+        $('#subVote2'+round).notify("You have submitted your vote.","success",{position:"top"});
       }
     }
 
