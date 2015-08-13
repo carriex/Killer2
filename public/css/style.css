@@ -1,6 +1,4 @@
 @media only screen and (min-device-width:375px) and (max-device-width:667px){
-<<<<<<< HEAD
-=======
 
      #home{
      	position:fixed;
@@ -71,7 +69,6 @@ body {
   font-family: 'Open Sans', sans-serif;
   text-align:center;
 }
->>>>>>> origin/master
 
      #home{
      	position:fixed;
@@ -91,7 +88,6 @@ body {
         text-align: center;
      }
 
-<<<<<<< HEAD
      p{
      	font-size:1.5em;
      }
@@ -148,8 +144,4 @@ textarea {
   resize: none;
 }
 
-=======
-.topAligned {
- vertical-align: top;
-}
->>>>>>> origin/master
+

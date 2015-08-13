@@ -29,8 +29,6 @@ function init(){
   socket.on('newConnection', function (data) {    
     updateParticipants(data.participants);
   });
-
-<<<<<<< HEAD
   /*
 =======
 /* handling disconnection here
@@ -204,13 +202,10 @@ function init(){
     }
     }
     else if(data.stage==4){
-<<<<<<< HEAD
     $('#result').children().remove();
     $('#result').css('display','none');
-=======
       $('#result').children().remove();
       $('#result').css('display','none');
->>>>>>> origin/master
       console.log('end');
       $('#vote').children().remove();
       $('#vote').css('display','none');
@@ -353,11 +348,8 @@ function init(){
     if(who=='p'){
       $('#choose').append('<p>Polices in this game:');
       for(var i=0;i<participants.length;i++){
-<<<<<<< HEAD
         if(participants[i].who=='p'&& participants[i].life==1){
-=======
         if(participants[i].who=='p' && participants[i].life==1){
->>>>>>> origin/master
           $('#choose').append('<p>Player '+participants[i].id+';');
         }
 
@@ -367,11 +359,8 @@ function init(){
       $('#choose').append('<p>Please select someone to verify. You can modify your choice before achieving agreement with other polices.</p>');
       $('#choose').append('<div><form action="">');
           for(var i=0; i<participants.length;i++){
-<<<<<<< HEAD
         if(participants[i].who!='p'&&participants[i].life==1){     //sequence of display need to be solved
-=======
         if(participants[i].who!='p'&& participants[i].life==1){     //sequence of display need to be solved
->>>>>>> origin/master
         $('#choose').append('<input type="radio" name="killer" id="' + participants[i].id + 'selected'+round+'"><label for="' + participants[i].id + 'selected'+round+'">'+participants[i].id+'</label>');
         //$('#'+participants[i].id+'selected'+round).click({sender:playerId, reciever:participants[i].id}, action);
         } //modification needed here...
@@ -382,11 +371,8 @@ function init(){
     else if(who=='k'){
       $('#choose').append('<p>Killers in this game:');
       for(var i=0;i<participants.length;i++){
-<<<<<<< HEAD
         if(participants[i].who=='k'&& participants[i].life==1){
-=======
         if(participants[i].who=='k'&&participants[i].life==1){
->>>>>>> origin/master
           $('#choose').append('<p>Player '+participants[i].id+';');
         }
 
@@ -395,11 +381,8 @@ function init(){
       $('#choose').append('<p>Please select someone to kill. You can modify your choice before achieving agreement with other killers.</p>');
       $('#choose').append('<div><form action="">');
           for(var i=0; i<participants.length;i++){
-<<<<<<< HEAD
         if(participants[i].who!='k'&& participants[i].life==1){     //sequence of display need to be solved
-=======
         if(participants[i].who!='k'&&participants[i].life==1){     //sequence of display need to be solved
->>>>>>> origin/master
         $('#choose').append('<input type="radio" name="killer" id="' + participants[i].id + 'selected'+round+'"><label for="' + participants[i].id + 'selected'+round+'">'+participants[i].id+'</label>');
         //$('#'+participants[i].id+'selected'+round).click({sender:playerId, reciever:participants[i].id}, action);
         } //modification needed here...
@@ -420,11 +403,8 @@ function init(){
     if(who=='p'){
       $('#choose').append('<p>Polices in this game:');
       for(var i=0;i<event.data.participants.length;i++){
-<<<<<<< HEAD
         if(event.data.participants[i].who=='p'&& event.data.participants[i].life==1){
-=======
         if(event.data.participants[i].who=='p'&&event.data.participants[i].life==1){
->>>>>>> origin/master
           $('#choose').append('<p>Player '+event.data.participants[i].id+';');
         }
 
@@ -434,11 +414,8 @@ function init(){
       $('#choose').append('<p>Please select someone to verify. You can modify your choice before achieving agreement with other polices.</p>');
       $('#choose').append('<div><form action="">');
           for(var i=0; i<event.data.participants.length;i++){
-<<<<<<< HEAD
         if(event.data.participants[i].who!='p' && event.data.participants[i].life==1){     //sequence of display need to be solved
-=======
         if(event.data.participants[i].who!='p'&& event.data.participants[i].life==1){     //sequence of display need to be solved
->>>>>>> origin/master
         $('#choose').append('<input type="radio" name="killer" id="' + event.data.participants[i].id + 'selected'+round+'"><label for="' + event.data.participants[i].id + 'selected'+round+'">'+event.data.participants[i].id+'</label>');
         //$('#'+participants[i].id+'selected'+round).click({sender:playerId, reciever:participants[i].id}, action);
         } //modification needed here...
