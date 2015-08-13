@@ -10,16 +10,16 @@
 
     #admin{
         position:fixed;
-        top:40%;
-        left:10%;
+        top:30%;
+        left:5%;
         text-transform: translate(-50%, -50%);
         font-size: 2em;
      }
 
     #user{
         position:fixed;
-        top:40%;
-        left:10%;
+        top:30%;
+        left:5%;
         text-transform: translate(-50%, -50%);
         font-size: 2em;
      }
