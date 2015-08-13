@@ -125,6 +125,7 @@ io.on("connection", function(socket){
 
     //Create a new room object and push the first user(admin)
 	socket.on('newRoom',function(data){
+        console.log(data.sessionId+"sent");
         var users = [];
         var participants=[];
         var k=0;
@@ -153,6 +154,7 @@ io.on("connection", function(socket){
 	})
     //handle a player request, error message handling can be added later
 	socket.on('join',function(data){
+        console.log(data.sessionId+"sent");
         if(data.roomNo>room.length){
 
             socket.emit('Err',{type:1});
@@ -251,6 +253,7 @@ io.on("connection", function(socket){
 
     //handle feedback from polices & killers(emit inforamtion, check status)   
     socket.on('upStatus',function(data){
+        console.log(data.sessionId+"sent");
     	var no = data.RoomNo-1; 
 
 
@@ -325,6 +328,7 @@ io.on("connection", function(socket){
     
     //'kill' people and tell everyone the result(including condition checking)
     socket.on('noted',function(data){
+        console.log(data.sessionId+"sent");
         var no=data.RoomNo-1;
         room[no].asked++;
         console.log(room[no].asked +' asked');
@@ -371,6 +375,7 @@ io.on("connection", function(socket){
     })
 
     socket.on('newStatus',function(data){
+        console.log(data.sessionId+"sent");
         /*
         if(data.stage==1){
             no=data.RoomNo-1;

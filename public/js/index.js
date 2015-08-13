@@ -108,7 +108,7 @@ function init(){
     }
 
     setTimeout(function(){
-        socket.emit('noted',{RoomNo:RoomNo});
+        socket.emit('noted',{RoomNo:RoomNo,sessionId:sessionId});
     },5000);
 
   })
@@ -326,14 +326,14 @@ function init(){
   //request to join a room
   function joinGame(){
     RoomNo = $('#roomNo').val();
-    socket.emit('join',{player:sessionId, roomNo:RoomNo});
+    socket.emit('join',{player:sessionId, roomNo:RoomNo,sessionId:sessionId});
   }
   
   //Tell server the number of players in the game
   function createRoom(){
     var number = Number($('#number').val());
     $('#admin').children().remove();
-    socket.emit('newRoom',{admin:sessionId, number:number});
+    socket.emit('newRoom',{admin:sessionId, number:number,sessionId:sessionId});
     $('#admin').append('<p style="text-align:center">You are Player 1(admin) of Room'+ RoomNo+'. Now waiting for other users to join.</p>');
     playerId=1;
   }
@@ -443,7 +443,7 @@ function init(){
   function action(event){
     for(var i=0; i<event.data.participants.length;i++){
         if($('#'+event.data.participants[i].id +'selected'+round).is(':checked')){
-          socket.emit('upStatus',{RoomNo:RoomNo, sender:event.data.sender, reciever:event.data.participants[i].id});
+          socket.emit('upStatus',{RoomNo:RoomNo, sender:event.data.sender, reciever:event.data.participants[i].id, sessionId:sessionId});
           //socket.emit('newStatus',{stage:2, reciever:event.data.participants[i].id, RoomNo:RoomNo});
         }
       }
@@ -464,13 +464,13 @@ function init(){
      for(var i=0; i<event.data.participants.length;i++){
         if($('#'+event.data.participants[i].id +'voted'+round).is(':checked')){
           voted=1;
-          socket.emit('newStatus',{stage:2, reciever:event.data.participants[i].id, sender:playerId, RoomNo:RoomNo});
+          socket.emit('newStatus',{stage:2, reciever:event.data.participants[i].id, sender:playerId, RoomNo:RoomNo, sessionId:sessionId});
           $.notify("You have submitted your vote.","success");
         }
       }
       if($('#notvoted'+round).is(':checked')){
         voted=1;
-        socket.emit('newStatus',{stage:2, reciever:-1, sender:playerId, RoomNo:RoomNo});
+        socket.emit('newStatus',{stage:2, reciever:-1, sender:playerId, RoomNo:RoomNo,sessionId:sessionId});
         $.notify("You have submitted your vote.","success");
       }
     }
@@ -484,13 +484,13 @@ function init(){
      for(var i=0; i<event.data.max.length;i++){
         if($('#'+event.data.max[i] +'voted2'+round).is(':checked')){
           voted=1;
-          socket.emit('newStatus',{stage:3, reciever:event.data.max[i], sender:playerId, RoomNo:RoomNo, max:event.data.max});
+          socket.emit('newStatus',{stage:3, reciever:event.data.max[i], sender:playerId, RoomNo:RoomNo, max:event.data.max, sessionId:sessionId});
           $.notify("You have submitted your vote.","success");
         }
       }
       if($('#notvoted2'+round).is(':checked')){
         voted=1;
-        socket.emit('newStatus',{stage:3, reciever:-1, sender:playerId, RoomNo:RoomNo,max:event.data.max});
+        socket.emit('newStatus',{stage:3, reciever:-1, sender:playerId, RoomNo:RoomNo,max:event.data.max, sessionId:sessionId});
         $.notify("You have submitted your vote.","success");
       }
     }
