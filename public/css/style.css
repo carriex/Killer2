@@ -24,6 +24,11 @@
         font-size: 2em;
      }
 
+     #play{
+        position: :fixed;
+        top:15%;
+     }
+
 
 
 
