@@ -167,10 +167,7 @@ io.on("connection", function(socket){
 		var msg=null;
 		room[i].users.push({sessionId:data.player,socket:socket, id:room[i].users.length+1, msg:msg});
 		room[i].users[room[i].users.length-1].socket.emit('joined',{id:room[i].users.length});
-<<<<<<< HEAD
-        //connection.push({sessionId:data.player, roomNo:data.roomNo, id:room[i].users.length});
-=======
->>>>>>> origin/master
+
 
 		//when all users are in, assign different roles to them, update properties in users[] and tell the players
         if(room[i].users.length==room[i].number){
