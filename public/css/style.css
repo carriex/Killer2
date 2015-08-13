@@ -8,6 +8,25 @@
         font-size: 2em;
      }
 
+    #admin{
+        position:fixed;
+        top:40%;
+        left:10%;
+        text-transform: translate(-50%, -50%);
+        font-size: 2em;
+     }
+
+    #user{
+        position:fixed;
+        top:40%;
+        left:10%;
+        text-transform: translate(-50%, -50%);
+        font-size: 2em;
+     }
+
+
+
+
      #create{
      	background-color: #000000;
      	color:#FFFFFF;

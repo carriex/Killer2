@@ -63,8 +63,8 @@ function init(){
 
     life=1;
     who=data.who;
-    $('#user').css('display','none');
-    $('#admin').css('display','none');
+    $('#user').remove();
+    $('#admin').remove();
     $('#play').css('display','block');
     $('#play').append('<h3>Player '+playerId+'</h3>');
     $('#play').append('<p id="initial">The killer game has started!</p>');
