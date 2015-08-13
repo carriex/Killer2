@@ -20,20 +20,20 @@
         top:30%;
         left:5%;
         text-transform: translate(-50%, -50%);
-        font-size: 2em;
+        font-size: 1em;
      }
 
     #user{
         top:30%;
         left:5%;
         text-transform: translate(-50%, -50%);
-        font-size: 2em;
+        font-size: 1em;
      }
 
      #play{
         top:20%;
         text-transform: translate(-50%, -50%);
-        font-size: 2em;
+        font-size: 1em;
      }
 
 
@@ -51,11 +51,11 @@
      }
 
      p{
-        font-size:1.7em;
+        font-size:1em;
      }
 
      h3{
-        font-size: 1.7em;
+        font-size: 1em;
      }
 
      #join{
