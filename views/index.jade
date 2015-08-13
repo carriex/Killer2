@@ -1,0 +1,44 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans')
+    link(rel='stylesheet', href='/css/style.css')  
+    <b>
+    script(src='//code.jquery.com/jquery-1.11.0.min.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='/js/index.js')
+    script(src='/js/notify.js') 
+    </b>  
+    title Killer Game
+  body
+    div#left
+    div#right
+    div#top
+    div#bottom
+    div(style="text-align:center")#home
+      input(type="button", value="create")#create
+      br
+      br
+      input(type="button", value="join")#join
+    div(style="text-align:center; display:none")#admin
+      input(type="text")#number
+      br
+      input(type="button" value="confirm")#acon
+    div(style="text-align:center; display:none")#user
+      <p style="text-align:center">Please enter Room No</p>
+      input(type="text")#roomNo
+      input(type="button" value="confirm")#jgame
+    div(style="text-align:center; display:none")#play
+    div(style="text-align:center")#choose
+    div(style="text-align:center")#result
+    div(style="text-align:center")#vote
+    div(style="text-align:center")#end
+      
+        
+
+
+
+
+
+
+
