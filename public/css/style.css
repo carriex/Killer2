@@ -27,6 +27,14 @@
      	font-size: 1.5em;
      }
 
+     button{
+        zoom:300%;
+     }
+
+     input{
+        zoom:300%;
+     }
+
      #join{
      	background-color: #000000;
      	color:#FFFFFF;
@@ -38,10 +46,6 @@
         text-align: center;
      }
 
-     body{
-     	zoom:300%;
-     	font-size: 1em;
-     }
 
      #top, #bottom, #left, #right{
      	background:#000000;

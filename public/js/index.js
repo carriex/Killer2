@@ -52,10 +52,10 @@ function init(){
 
   socket.on('Err',function (data){
     if(data.type==1){
-      $.notify("The Room No doesn't exit. Please enter a valid room no.","error");
+      $.notify("The Room No doesn't exit. Please enter a valid room no.","error",{position:"bottom","center"});
     }
     else if(data.type==2){
-      $.notify("The room is already full!","error");
+      $.notify("The room is already full!","error",{position:"bottom","center"});
     }
   })
 
@@ -458,27 +458,27 @@ function init(){
 
   function subVote(event){
     if(voted==1){
-      $('#subVote'+round).notify("You can't vote more than once.","warn",{position:"top"});
+      $.notify("You can't vote more than once.","warn",{position:"bottom","center"});
     }
     else{
      for(var i=0; i<event.data.participants.length;i++){
         if($('#'+event.data.participants[i].id +'voted'+round).is(':checked')){
           voted=1;
           socket.emit('newStatus',{stage:2, reciever:event.data.participants[i].id, sender:playerId, RoomNo:RoomNo});
-          $('#subVote'+round).notify("You have submitted your vote.","success",{position:"top"});
+          $.notify("You have submitted your vote.","success",{position:"bottom","center"});
         }
       }
       if($('#notvoted'+round).is(':checked')){
         voted=1;
         socket.emit('newStatus',{stage:2, reciever:-1, sender:playerId, RoomNo:RoomNo});
-        $('#subVote'+round).notify("You have submitted your vote.","success",{position:"top"});
+        $.notify("You have submitted your vote.","success",{position:"botoom","center"});
       }
     }
   }
 
   function subVote2(event){
     if(voted==1){
-      $('#subVote2'+round).notify("You can't vote more than once.","warn",{position:"top"});
+      $.notify("You can't vote more than once.","warn",{position:"bottom","center"});
     }
       else{
      for(var i=0; i<event.data.max.length;i++){
@@ -491,7 +491,7 @@ function init(){
       if($('#notvoted2'+round).is(':checked')){
         voted=1;
         socket.emit('newStatus',{stage:3, reciever:-1, sender:playerId, RoomNo:RoomNo,max:event.data.max});
-        $('#subVote2'+round).notify("You have submitted your vote.","success",{position:"top"});
+        $.notify("You have submitted your vote.","success",{position:"bottom","center"});
       }
     }
 
