@@ -18,6 +18,8 @@ function init(){
   var round;
 
   var voted=0;
+  
+  var stage=0;
 
 
 
@@ -25,7 +27,7 @@ function init(){
 		sessionId = socket.io.engine.id;
 		console.log('Connected' + sessionId);
     if(life!=-1){
-      socket.emit('updateSocket',{id:playerId, RoomNo:RoomNo, sessionId:sessionId});
+      socket.emit('updateSocket',{id:playerId, RoomNo:RoomNo, sessionId:sessionId,who:who,stage:stage});
     }
 	});
 
@@ -85,6 +87,7 @@ function init(){
   })
 
   socket.on('message',function(data){
+    stage++;
     if(data.type==0){
       $('#choose').append('<p>Player '+data.sender+' chooses to verify Player '+data.reciever);
     }

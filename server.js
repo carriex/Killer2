@@ -126,7 +126,20 @@ io.on("connection", function(socket){
         console.log('user update of Room'+data.RoomNo+', user '+data.id);
         if(room[data.RoomNo-1]!=undefined){
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
-        _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;}
+        _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;
+        if(data.who=='k'&& data.stage<room[data.RoomNo].stage[1].event.length){
+            for(var i=data.stage;i<room[data.RoomNo].stage[1].event.length;i++){
+                socket.emit('message',{type:1,sender:room[data.RoomNo].stage[1].event[i].sender, reciever:room[data.RoomNo].stage[1].event[i].reciever});
+        }
+        console.log('update message of Room'+data.RoomNo+', user '+data.id);
+    }
+        else if(data.who=='p' &&data.stage<room[data.RoomNo].stage[0].event.length){
+            for(var i=data.stage;i<room[data.RoomNo].stage[0].event.length;i++){
+                socket.emit('message',{type:0,sender:room[data.RoomNo].stage[0].event[i].sender, reciever:room[data.RoomNo].stage[0].event[i].reciever});
+        }
+        console.log('update message of Room'+data.RoomNo+', user '+data.id);
+    }
+    }
 
     })
 
@@ -137,11 +150,16 @@ io.on("connection", function(socket){
         var users = [];
         var participants=[];
         var k=0;
+
         while(room[k]!=null||room[k]!=undefined){
             k++;
         }
-        room[k]={id:k+1, number:data.number, admin:data.admin, users:users, participants:participants};
-        /*room[k].id=k+1;
+        var stage=[];
+        var event=[];
+        room[k]={id:k+1, number:data.number, admin:data.admin, users:users, participants:participants,stage:stage};
+        room[k].stage.push({event:event});
+        room[k].stage.push({event:event});
+        /*room[k].id=k+1
         room[k].number=data.number;
         room[k].admin=data.admin;
         room[k].users=users;
@@ -247,7 +265,6 @@ io.on("connection", function(socket){
              for(var j=0; j<room[i].number; j++){
              	room[i].users[j].socket.emit('startGame',{participants:room[i].participants, who:room[i].users[j].who});
              }
-             console.log('stage 2');
 
              room[i].asked = 0; 
              room[i].voted=0;
@@ -274,6 +291,7 @@ io.on("connection", function(socket){
     			room[no].users[i].socket.emit('message',{type:0,sender:data.sender, reciever:data.reciever});
                 police.push({index:i});};
     		}
+            room[no].stage[0].event.push({type:0, sender:data.sender, reciever:data.reciever});
 
             var all=1;
 
@@ -298,6 +316,7 @@ io.on("connection", function(socket){
                 room[no].users[i].socket.emit('update',{type:0, reciever:data.reciever, verify:verify});
                 room[no].users[i].msg=undefined;
             }}
+
             }
 
     	}
@@ -310,6 +329,9 @@ io.on("connection", function(socket){
                 room[no].users[i].socket.emit('message',{type:1,sender:data.sender, reciever:data.reciever});
                 killer.push({index:i});};
             }
+            room[no].stage[1].event.push({type:1, sender:data.sender, reciever:data.reciever});
+
+
 
             var all=1;
 
@@ -588,6 +610,7 @@ io.on("connection", function(socket){
 
 socket.on('disconnect',function(){
     for (var j=0; j<room.length;j++){
+        if(room[j].users.length>0){
             for(var i=0; i<room[j].users.length;i++){
                 if(room[j].users[i].socket==socket){
                     room[j].users[i].socket=undefined;
@@ -596,6 +619,7 @@ socket.on('disconnect',function(){
                 }
             }
         }
+    }
 })
 
 
