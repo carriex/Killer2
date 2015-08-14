@@ -21,6 +21,8 @@ function init(){
   
   var stage=0;
 
+  var recieved=0;
+
 
 
 	socket.on ('connect', function(){
@@ -120,6 +122,7 @@ function init(){
 
   //handle messages from the server and do the next step
   socket.on('nextStep', function(data){
+     recieved=1;
      if(data.stage==1){
       $('#choose').children().remove();
       $('#initial').remove();
@@ -404,6 +407,8 @@ function init(){
 
     function startGame1(event){
 
+    recieved=1;
+
     round++;
 
     $('#end').children().remove();
@@ -498,12 +503,14 @@ function init(){
         if($('#'+event.data.max[i] +'voted2'+round).is(':checked')){
           voted=1;
           socket.emit('newStatus',{stage:3, reciever:event.data.max[i], sender:playerId, RoomNo:RoomNo, max:event.data.max, sessionId:sessionId});
+          recieved=0;
           $.notify("You have submitted your vote.","success");
         }
       }
       if($('#notvoted2'+round).is(':checked')){
         voted=1;
         socket.emit('newStatus',{stage:3, reciever:-1, sender:playerId, RoomNo:RoomNo,max:event.data.max, sessionId:sessionId});
+        recieved=0;
         $.notify("You have submitted your vote.","success");
       }
     }
