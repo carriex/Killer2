@@ -573,7 +573,17 @@ io.on("connection", function(socket){
 })
 
 
-
+socket.on('disconnect',function(){
+    for (var j=0; j<room.length;j++){
+            for(var i=0; i<room[j].users.length;i++){
+                if(room[j].users[i].socket==socket){
+                    room[j].users[i].socket=undefined;
+                    console.log('Room '+(j+1)+' user '+room[j].users[i].id+' disconnects');
+                    break;
+                }
+            }
+        }
+})
 
 
 
