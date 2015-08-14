@@ -157,8 +157,8 @@ io.on("connection", function(socket){
         var stage=[];
         var event=[];
         room[k]={id:k+1, number:data.number, admin:data.admin, users:users, participants:participants,stage:stage};
-        room[k].stage[0].event=event;
-        room[k].stage[1].event=event;
+        room[k].stage.push({event:event});
+        room[k].stage.push({event:event});
         /*room[k].id=k+1
         room[k].number=data.number;
         room[k].admin=data.admin;
