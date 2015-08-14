@@ -13,7 +13,7 @@ function init(){
 
   var playerId;
   
-  var life;
+  var life=-1;
 
   var round;
 
@@ -24,6 +24,9 @@ function init(){
 	socket.on ('connect', function(){
 		sessionId = socket.io.engine.id;
 		console.log('Connected' + sessionId);
+    if(life!=-1){
+      socket.on('updateSocket',{id:playerId, RoomNo:RoomNo, sessionId:sessionId});
+    }
 	});
 
   socket.on('newConnection', function (data) {    

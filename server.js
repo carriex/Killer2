@@ -122,6 +122,12 @@ io.on("connection", function(socket){
 
 	});
 
+    socket.on('updateSocket',function(data){
+        _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
+        _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = data.sessionId;
+
+    })
+
 
     //Create a new room object and push the first user(admin)
 	socket.on('newRoom',function(data){
