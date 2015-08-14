@@ -127,15 +127,15 @@ io.on("connection", function(socket){
         if(room[data.RoomNo-1]!=undefined){
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;
-        if(data.who=='k'&& data.stage<room[data.RoomNo].stage[1].event.length){
-            for(var i=data.stage;i<room[data.RoomNo].stage[1].event.length;i++){
-                socket.emit('message',{type:1,sender:room[data.RoomNo].stage[1].event[i].sender, reciever:room[data.RoomNo].stage[1].event[i].reciever});
+        if(data.who=='k'&& data.stage<room[data.RoomNo-1].stage[1].event.length){
+            for(var i=data.stage;i<room[data.RoomNo-1].stage[1].event.length;i++){
+                socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});
         }
         console.log('update message of Room'+data.RoomNo+', user '+data.id);
     }
-        else if(data.who=='p' &&data.stage<room[data.RoomNo].stage[0].event.length){
-            for(var i=data.stage;i<room[data.RoomNo].stage[0].event.length;i++){
-                socket.emit('message',{type:0,sender:room[data.RoomNo].stage[0].event[i].sender, reciever:room[data.RoomNo].stage[0].event[i].reciever});
+        else if(data.who=='p' &&data.stage<room[data.RoomNo-1].stage[0].event.length){
+            for(var i=data.stage;i<room[data.RoomNo-1].stage[0].event.length;i++){
+                socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});
         }
         console.log('update message of Room'+data.RoomNo+', user '+data.id);
     }
