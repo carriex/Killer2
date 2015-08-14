@@ -29,13 +29,12 @@ function init(){
   socket.on('newConnection', function (data) {    
     updateParticipants(data.participants);
   });
-  /*
-=======
-/* handling disconnection here
->>>>>>> origin/master
+  
+
+
   socket.on('disconnect', function (data) {
-    $.notify('Player '+data.id+' disconnected.','error');
-  });*/
+    socket.io.reconnect();
+  });
 
   socket.on('Respond',function(data){
     $('#admin').prepend('<p>You are in Room No.'+data.id+'. </p><p>Please enter the number of players</p>');
