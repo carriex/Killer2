@@ -132,12 +132,14 @@ io.on("connection", function(socket){
                 socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});
         }
         console.log('update message of Room'+data.RoomNo+', user '+data.id);
+        console.log(room[data.RoomNo-1].stage[1].event.length+' messages updated');
     }
         else if(data.who=='p' &&data.stage<room[data.RoomNo-1].stage[0].event.length){
             for(var i=data.stage;i<room[data.RoomNo-1].stage[0].event.length;i++){
                 socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});
         }
         console.log('update message of Room'+data.RoomNo+', user '+data.id);
+        console.log(room[data.RoomNo-1].stage[0].event.length+' messages updated');
     }
     }
 
