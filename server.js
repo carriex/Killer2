@@ -247,6 +247,7 @@ io.on("connection", function(socket){
              for(var j=0; j<room[i].number; j++){
              	room[i].users[j].socket.emit('startGame',{participants:room[i].participants, who:room[i].users[j].who});
              }
+             console.log('stage 2');
 
              room[i].asked = 0; 
              room[i].voted=0;
@@ -392,6 +393,8 @@ io.on("connection", function(socket){
                 room[no].participants[j].vote=0;
              }
         }*/
+
+        //this is the first vote
         if(data.stage==2){
             no=data.RoomNo-1;
             room[no].voted++;
@@ -403,6 +406,13 @@ io.on("connection", function(socket){
                 var maximum=_.max(room[no].participants, function(data){
                     return data.votes;
                 }).votes;
+                if(maximum==0){
+                for(var j=0;j<room[no].participants.length;j++){
+                        room[no].users[j].socket.emit('nextStep',{stage:3, reciever:-1, participants:room[no].participants, who:who});
+                    }
+                room[no].voted=0;
+                }
+                else{
                 max.push(_.max(room[no].participants, function(data){
                     return data.votes;
                 }).id);
@@ -485,7 +495,10 @@ io.on("connection", function(socket){
 
          }
         }
+        } //this is the end of the for (vote==votes) loop
     }
+
+    //this is the second vote 
     else if(data.stage==3){
         no=data.RoomNo-1;
         room[no].voted++;
@@ -504,7 +517,7 @@ io.on("connection", function(socket){
                 m=_.max(temp, function(data){
                     return data.votes;
                 }).votes;
-                if(m==maximum){
+                if(m==maximum||maximum==0){
                 room[no].voted=0;
                 for(var j=0; j<room[no].users.length;j++){
                 if(j<room[no].users.length-1){
