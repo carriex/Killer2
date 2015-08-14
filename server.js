@@ -609,17 +609,18 @@ io.on("connection", function(socket){
 
 
 socket.on('disconnect',function(){
+    if(room.length>0){
     for (var j=0; j<room.length;j++){
         if(room[j].users.length>0){
             for(var i=0; i<room[j].users.length;i++){
                 if(room[j].users[i].socket==socket){
-                    room[j].users[i].socket=undefined;
+                    //room[j].users[i].socket=undefined;
                     console.log('Room '+(j+1)+' user '+room[j].users[i].id+' disconnects');
                     break;
                 }
             }
         }
-    }
+    }}
 })
 
 
