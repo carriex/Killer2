@@ -123,8 +123,9 @@ io.on("connection", function(socket){
 	});
 
     socket.on('updateSocket',function(data){
+        console.log('user update of Room'+data.RoomNo+', user '+data.id);
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
-        _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = data.sessionId;
+        _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;
 
     })
 
