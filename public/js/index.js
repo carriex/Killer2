@@ -25,7 +25,7 @@ function init(){
 		sessionId = socket.io.engine.id;
 		console.log('Connected' + sessionId);
     if(life!=-1){
-      socket.on('updateSocket',{id:playerId, RoomNo:RoomNo, sessionId:sessionId});
+      socket.emit('updateSocket',{id:playerId, RoomNo:RoomNo, sessionId:sessionId});
     }
 	});
 
