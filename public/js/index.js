@@ -328,16 +328,24 @@ function init(){
   //request to join a room
   function joinGame(){
     RoomNo = $('#roomNo').val();
-    socket.emit('join',{player:sessionId, roomNo:RoomNo,sessionId:sessionId});
+    if(RoomNo<1||isNaN(RoomNo)){
+      $.notify('Please enter a valid room No.','error');
+    }
+    else{
+    socket.emit('join',{player:sessionId, roomNo:RoomNo,sessionId:sessionId});}
   }
   
   //Tell server the number of players in the game
   function createRoom(){
     var number = Number($('#number').val());
+    //console.log(typeof number);
+    if(number<1||isNaN(number)){
+      $.notify('Please enter a valid number','error');
+    }else{
     $('#admin').children().remove();
     socket.emit('newRoom',{admin:sessionId, number:number,sessionId:sessionId});
     $('#admin').append('<p style="text-align:center">You are Player 1(admin) of Room'+ RoomNo+'. Now waiting for other users to join.</p>');
-    playerId=1;
+    playerId=1;}
   }
 
   function startGame(participants){
