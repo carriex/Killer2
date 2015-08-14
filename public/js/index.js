@@ -356,6 +356,7 @@ function init(){
 
   function startGame(participants){
 
+    recieved=1;
     round++;
 
     $('#end').children().remove();
@@ -483,12 +484,14 @@ function init(){
         if($('#'+event.data.participants[i].id +'voted'+round).is(':checked')){
           voted=1;
           socket.emit('newStatus',{stage:2, reciever:event.data.participants[i].id, sender:playerId, RoomNo:RoomNo, sessionId:sessionId});
+          recieved=0;
           $.notify("You have submitted your vote.","success");
         }
       }
       if($('#notvoted'+round).is(':checked')){
         voted=1;
         socket.emit('newStatus',{stage:2, reciever:-1, sender:playerId, RoomNo:RoomNo,sessionId:sessionId});
+        recieved=0;
         $.notify("You have submitted your vote.","success");
       }
     }
