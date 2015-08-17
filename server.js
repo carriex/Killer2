@@ -594,7 +594,7 @@ io.on("connection", function(socket){
             var m=_.max(temp, function(data){
                     return data.votes;
                 }).votes;
-            var r=m=_.max(temp, function(data){
+            var r=_.max(temp, function(data){
                     return data.votes;
                 }).id;
             console.log('Player '+r+' recieved '+m+' votes');
