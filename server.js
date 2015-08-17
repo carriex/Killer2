@@ -678,8 +678,9 @@ io.on("connection", function(socket){
 
 
 socket.on('disconnect',function(){
-    if(room.length>0){
+if(room.length>0){
     for (var j=0; j<room.length;j++){
+        if(room[j]!=null){
         if(room[j].users.length>0){
             for(var i=0; i<room[j].users.length;i++){
                 if(room[j].users[i].socket==socket){
@@ -690,6 +691,7 @@ socket.on('disconnect',function(){
             }
         }
     }}
+}
 })
 
 
