@@ -128,6 +128,7 @@ io.on("connection", function(socket){
         if(room[data.RoomNo-1]!=undefined){
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;
+        /*
         if(room[data.RoomNo-1].recieved!=data.recieved){
             var event=_.last(room[data.RoomNo-1].stage[2].event);
             if(event.stage==5){
@@ -139,7 +140,7 @@ io.on("connection", function(socket){
             else{
                 socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, who:event.who, participants:event.participants}); 
             }
-        }
+        }*/
 
         if(data.who=='k'&& data.stage<room[data.RoomNo-1].stage[1].event.length){
             for(var i=data.stage;i<room[data.RoomNo-1].stage[1].event.length;i++){
