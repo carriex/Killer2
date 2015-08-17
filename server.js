@@ -599,7 +599,7 @@ io.on("connection", function(socket){
                 }).id;
             console.log('Player '+r+' recieved '+m+' votes');
 
-                if(m==maximum||maximum==0){s
+                if(m==maximum||maximum==0){
                 room[no].voted=0;
                 for(var j=0; j<room[no].users.length;j++){
                 if(j<room[no].users.length-1){
