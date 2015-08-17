@@ -99,7 +99,7 @@ function init(){
   })
 
   socket.on('update',function(data){
-
+    stage=0;
     if(data.type==0){
       $('#choose').append('<p>Person to verify: Player '+data.reciever+'</p>');
       if(data.verify==0){
