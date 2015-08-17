@@ -122,7 +122,7 @@ function init(){
 
   //handle messages from the server and do the next step
   socket.on('nextStep', function(data){
-     recieved=1;
+     recieved=0;
      if(data.stage==1){
       $('#choose').children().remove();
       $('#initial').remove();

@@ -128,7 +128,7 @@ io.on("connection", function(socket){
         if(room[data.RoomNo-1]!=undefined){
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;
-        /*
+        
         if(room[data.RoomNo-1].recieved!=data.recieved){
             var event=_.last(room[data.RoomNo-1].stage[2].event);
             if(event.stage==5){
@@ -140,7 +140,7 @@ io.on("connection", function(socket){
             else{
                 socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, who:event.who, participants:event.participants}); 
             }
-        }*/
+        }
 
         if(data.who=='k'&& data.stage<room[data.RoomNo-1].stage[1].event.length){
             for(var i=data.stage;i<room[data.RoomNo-1].stage[1].event.length;i++){
@@ -589,11 +589,17 @@ io.on("connection", function(socket){
             var reciever=_.max(room[no].participants, function(data){
                     return data.votes;
                 }).id;
+            console.log('Player '+reciever+' recieved '+maximum+' votes');
             var temp=_.without(room[no].participants,_.findWhere(room[no].participants, {id:reciever}));
-                m=_.max(temp, function(data){
+            var m=_.max(temp, function(data){
                     return data.votes;
                 }).votes;
-                if(m==maximum||maximum==0){
+            var r=m=_.max(temp, function(data){
+                    return data.votes;
+                }).id;
+            console.log('Player '+r+' recieved '+m+' votes');
+
+                if(m==maximum||maximum==0){s
                 room[no].voted=0;
                 for(var j=0; j<room[no].users.length;j++){
                 if(j<room[no].users.length-1){
