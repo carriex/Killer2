@@ -383,8 +383,8 @@ io.on("connection", function(socket){
         room[no].asked++;
         console.log(room[no].asked +' asked');
         if(room[no].asked===room[no].ppl){
-            room[no].stage[1].event.spice(0,room[no].stage[1].event.length);
-            room[no].stage[0].event.spice(0,room[no].stage[0].event.length);
+            room[no].stage[1].event.splice(0,room[no].stage[1].event.length);
+            room[no].stage[0].event.splice(0,room[no].stage[0].event.length);
 
             if(room[no].victim=='p'){
                     room[no].police--;
