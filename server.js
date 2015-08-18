@@ -125,7 +125,7 @@ io.on("connection", function(socket){
     socket.on('updateSocket',function(data){
         console.log('user update of Room'+data.RoomNo+', user '+data.id);
         
-        if(room[data.RoomNo-1]!=undefined){
+        if(room[data.RoomNo-1]!=undefined && _.findWhere(room[data.RoomNo-1].users, {id:data.id})!=undefined ){
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;
 
