@@ -67,7 +67,7 @@ function init(){
 
   socket.on('startGame',function(data){
 
-    life=0;
+    life=1;
     who=data.who;
     $('#user').remove();
     $('#admin').remove();
@@ -212,7 +212,7 @@ function init(){
     }
     }
     else if(data.stage==4){
-    life=-1;
+    life=0;
     $('#result').children().remove();
     $('#result').css('display','none');
       $('#result').children().remove();
