@@ -129,7 +129,8 @@ io.on("connection", function(socket){
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket = socket;
         _.findWhere(room[data.RoomNo-1].users, {id:data.id}).sessionId = data.sessionId;
 
-        if(_.findWhere(room[data.RoomNo-1].users, {id:data.id}).events.length>0){
+        if(_.findWhere(room[data.RoomNo-1].users, {id:data.id}).events!=undefined){
+            if(_.findWhere(room[data.RoomNo-1].users, {id:data.id}).events.length>0){
             var event=_.findWhere(room[data.RoomNo-1].users, {id:data.id}).events[0];
             if(event.status==0){
                _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket.emit('startGame',{participants:event.participants, who:event.who});
@@ -149,6 +150,7 @@ io.on("connection", function(socket){
             _.findWhere(room[data.RoomNo-1].users, {id:data.id}).events.splice(0,1);
 
         }
+    }
 
         if(data.who=='k'&& data.stage<room[data.RoomNo-1].stage[1].event.length){
             for(var i=data.stage;i<room[data.RoomNo-1].stage[1].event.length;i++){
