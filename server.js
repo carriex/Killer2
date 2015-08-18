@@ -167,17 +167,17 @@ io.on("connection", function(socket){
         var k=0;
         //var recieved=0;
 
-        while(room[k]!=null||room[k]!=undefined){
+        while(room[k]!==null||room[k]!==undefined){
             k++;
         }
         var stage=[];
         var event1=[];
         var event2=[]; //be careful when passing array variable 
-        var event3=[];
+        //var event3=[];
         room[k]={id:k+1, number:data.number, admin:data.admin, users:users, participants:participants,stage:stage};//recieved should be added later
         room[k].stage.push({event:event1});
         room[k].stage.push({event:event2});
-        room[k].stage.push({event:event3});
+        //room[k].stage.push({event:event3});
         /*room[k].id=k+1
         room[k].number=data.number;
         room[k].admin=data.admin;
@@ -436,6 +436,7 @@ io.on("connection", function(socket){
 
             room[no].users.splice(_.indexOf(room[no].users, _.findWhere(room[no].users,{id:room[no].killed})),1);
             room[no].asked=0;
+
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
                 room[no]=null;
             }
@@ -504,9 +505,8 @@ io.on("connection", function(socket){
                     //room[no].stage[2].event.push({stage:5, max:max, participants:room[no].participants});
                     //room[no].recieved=1;
             for(var j=0; j<room[no].participants.length;j++){
-                if(j<room[no].users.length-1){
                 room[no].participants[j].votes=0;
-                room[no].participants[j].vote.splice(0,room[no].participants[j].vote.length);}
+                room[no].participants[j].vote.splice(0,room[no].participants[j].vote.length);
             }
 
                 }
