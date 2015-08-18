@@ -13,7 +13,7 @@ function init(){
 
   var playerId;
   
-  var life=0;
+  var life=-1;
 
   var round;
 
