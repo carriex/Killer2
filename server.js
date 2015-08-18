@@ -600,14 +600,14 @@ io.on("connection", function(socket){
             console.log('Player '+r+' recieved '+m+' votes');
 
                 if(m==maximum||maximum==0){
-                room[no].voted=0;
-                for(var j=0; j<room[no].users.length;j++){
-                if(j<room[no].users.length-1){
-                room[no].participants[j].votes=0;
-                room[no].participants[j].vote.splice(0,room[no].participants[j].vote.length);}}
                     for(var j=0;j<room[no].participants.length;j++){
                         room[no].users[j].socket.emit('nextStep',{stage:3, reciever:-1, participants:room[no].participants, who:who});
                     }
+                room[no].voted=0;
+                for(var j=0; j<room[no].users.length;j++){
+                if(j<=room[no].users.length-1){
+                room[no].participants[j].votes=0;
+                room[no].participants[j].vote.splice(0,room[no].participants[j].vote.length);}}
                 room[no].stage[2].event.push({stage:3, reciever:-1, participants:room[no].participants, who:who});
                 room[no].recieved=1;
                 }
