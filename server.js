@@ -221,6 +221,7 @@ io.on("connection", function(socket){
         else{
 		var i = data.roomNo-1;
 		var msg=null;
+        var events=[];
 		room[i].users.push({sessionId:data.player,socket:socket, id:room[i].users.length+1, msg:msg, events:events});
 		room[i].users[room[i].users.length-1].socket.emit('joined',{id:room[i].users.length});
 
