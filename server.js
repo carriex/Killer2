@@ -167,7 +167,7 @@ io.on("connection", function(socket){
         var k=0;
         //var recieved=0;
 
-        while(room[k]!==null||room[k]!==undefined){
+        while(room[k]!=null||room[k]!=undefined){
             k++;
         }
         var stage=[];
