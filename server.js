@@ -191,7 +191,7 @@ io.on("connection", function(socket){
         room[k].participants=participants;*/
 		//room.push({id:room.length, number: data.number, admin:data.admin, users:users, participants:participants});
 		var msg=null; //there might be errors
-        var events;
+        var events = [];
 		room[k].users.push({sessionId:data.admin, socket:socket, id:1, msg:msg, events:events});
         //connection.push({sessionId:data.admin, roomNo:room.length, id:1});
 	})
