@@ -380,8 +380,15 @@ function init(){
   function rejoinGame(){
     RoomNo=$('#roomNo2').val();
     playerId=$('#playerId').val();
+    if(RoomNo<1||isNaN(RoomNo)){
+      $.notify('Please enter a valid room No.','error');
+    }
+    else if(playerId<1||isNaN(playerId)){
+     $.notify('Please enter a valid PlayerId','error');
+    }
+    else{
     $('#play').append('<h3>Player '+playerId+'</h3>');
-    socket.emit('updateSocket2',{id:playerId, RoomNo:RoomNo});
+    socket.emit('updateSocket2',{id:playerId, RoomNo:RoomNo});}
 
   }
   
