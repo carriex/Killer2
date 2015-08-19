@@ -656,7 +656,8 @@ io.on("connection", function(socket){
                 else{
                     room[no].users[j].events={status:1, stage:4, reciever:reciever, who:who, type:2, sent:1};
                     room[no].users[j].socket.emit('nextStep',{stage:4, reciever:reciever,who:who, type:2});
-                }}
+                }
+            }
                 else{
                 if(room[no].users[j].socket==undefined){
                     room[no].users[j].events={status:1, stage:3, reciever:reciever, participants:room[no].participants, who:who, sent:0};
@@ -689,6 +690,10 @@ io.on("connection", function(socket){
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
                 room[no]=null;
+            }
+            else{
+                room[no].round++;
+                console.log('Room'+room[no].id+', Round '+room[no].round);
             }
 
          }
@@ -737,6 +742,8 @@ io.on("connection", function(socket){
                 room[no].participants[j].vote.splice(0,room[no].participants[j].vote.length);}
                 //room[no].stage[2].event.push({stage:3, reciever:-1, participants:room[no].participants, who:who});
                 //room[no].recieved=1;
+                room[no].round++;
+                console.log('Room'+room[no].id+', Round '+room[no].round);
                 }
                 else{
                     var reciever=_.max(room[no].participants, function(data){
