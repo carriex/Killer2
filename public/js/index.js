@@ -28,7 +28,8 @@ function init(){
 	socket.on ('connect', function(){
 		sessionId = socket.io.engine.id;
 		console.log('Connected' + sessionId);
-    if(life!=0){
+    
+    if(life!=0 && RoomNo!=undefined){
       socket.emit('updateSocket',{id:playerId, RoomNo:RoomNo, sessionId:sessionId,who:who,stage:stage});
     }
 	});
@@ -53,6 +54,7 @@ function init(){
     $('#user').children().remove();
     $('#user').append('<p>You are player '+data.id+'.</p><p>Now waiting for other users to join</p>');
     playerId=data.id;
+    $('#play').append('<h3>Player '+playerId+'</h3>');
     var round=0;
   })
 
@@ -65,6 +67,31 @@ function init(){
     }
   })
 
+  socket.on('Denied',function(data){
+    if(data.type==0){
+       $.notify("The Player No doesn't exit. Please enter a valid playerId.","error");
+    }
+    else if(data.type==1){
+      $.notify("You can't join this room because you are dead or you are out.","error");
+    }
+    else if(data.type==2){
+      $.notify("This player is already in the room.","error");
+    }
+  })
+
+  socket.on('updated',function(data){
+    who=data.who;
+    life=1;
+    playerId=data.id;
+    round=data.round;
+    $('#user').remove();
+    $('#admin').remove();
+    $('#user2').remove();
+    $('#play').css('display','block');
+})
+
+
+
   socket.on('startGame',function(data){
 
     life=1;
@@ -72,7 +99,6 @@ function init(){
     $('#user').remove();
     $('#admin').remove();
     $('#play').css('display','block');
-    $('#play').append('<h3>Player '+playerId+'</h3>');
     $('#play').append('<p id="initial">The killer game has started!</p>');
     if(data.who=='p'){
       $('#play').append('<p id="identity">You are the police.</p>');
@@ -335,6 +361,11 @@ function init(){
     $('#home').css('display','none');
     $('#user').css('display','block');
   }
+
+  function rejoin(){
+    $('#home').css('display','none');
+    $('#user2').css('display','block');
+  }
   
   //request to join a room
   function joinGame(){
@@ -344,6 +375,14 @@ function init(){
     }
     else{
     socket.emit('join',{player:sessionId, roomNo:RoomNo,sessionId:sessionId});}
+  }
+
+  function rejoinGame(){
+    RoomNo=$('#roomNo2').val();
+    playerId=$('#playerId').val();
+    $('#play').append('<h3>Player '+playerId+'</h3>');
+    socket.emit('updateSocket2',{id:playerId, RoomNo:RoomNo});
+
   }
   
   //Tell server the number of players in the game
@@ -356,7 +395,10 @@ function init(){
     $('#admin').children().remove();
     socket.emit('newRoom',{admin:sessionId, number:number,sessionId:sessionId});
     $('#admin').append('<p style="text-align:center">You are Player 1(admin) of Room'+ RoomNo+'. Now waiting for other users to join.</p>');
-    playerId=1;}
+    playerId=1;
+    $('#play').append('<h3>Player '+playerId+'</h3>');
+    round=0;
+}
   }
 
   function startGame(participants){
@@ -537,6 +579,8 @@ $('#create').on('click',create);
 $('#acon').on('click',createRoom);
 $('#join').on('click',join);
 $('#jgame').on('click',joinGame);
+$('#return').on('click', rejoin);
+$('#jgame2').on('click',rejoinGame);
 }
 
 $(document).on('ready', init);

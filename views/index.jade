@@ -21,6 +21,9 @@ html
       br
       br
       input(type="button", value="join")#join
+      br
+      br
+      input(type="button", value="re-join")#return
     div(style="text-align:center; display:none")#admin
       input(type="text")#number
       br
@@ -29,6 +32,13 @@ html
       <p style="text-align:center">Please enter Room No</p>
       input(type="text")#roomNo
       input(type="button" value="confirm")#jgame
+    div(style="text-align:center; display:none")#user2
+      <p style="text-align:center">Please enter Room No</p>
+      input(type="text")#roomNo2
+      <p style="text-align:center">Please enter your player ID</p>
+      input(type="text")#playerId
+      br
+      input(type="button" value="confirm")#jgame2
     div(style="text-align:center; display:none")#play
     div(style="text-align:center")#choose
     div(style="text-align:center")#result
