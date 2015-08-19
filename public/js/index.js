@@ -55,7 +55,7 @@ function init(){
     $('#user').append('<p>You are player '+data.id+'.</p><p>Now waiting for other users to join</p>');
     playerId=data.id;
     $('#play').append('<h3>Player '+playerId+'</h3>');
-    var round=0;
+    round=0;
   })
 
   socket.on('Err',function (data){
