@@ -252,7 +252,7 @@ io.on("connection", function(socket){
         var event1=[];
         var event2=[]; //be careful when passing array variable 
         //var event3=[];
-        room[k]={id:k+1, number:data.number, admin:data.admin, users:users, participants:participants,stage:stage, round:0};//recieved should be added later
+        room[k]={id:k+1, number:data.number, admin:data.admin, users:users, participants:participants,stage:stage, round:0, started:0};//recieved should be added later
         room[k].stage.push({event:event1});
         room[k].stage.push({event:event2});
         //room[k].stage.push({event:event3});
@@ -287,6 +287,10 @@ io.on("connection", function(socket){
         else if(room[data.roomNo-1].users.length==room[data.roomNo-1].number){
 
             socket.emit('Err',{type:2});
+        }
+        else if(room[data.roomNo-1].started==1){
+            
+            socket.emit('Err',{type:3});
         }
         else{
 		var i = data.roomNo-1;
@@ -377,6 +381,7 @@ io.on("connection", function(socket){
              room[i].police=k;
              room[i].citizen=room[i].number-room[i].ppl;
              room[i].round++;
+             room[i].started=1;
              console.log('Room'+room[i].id+', Round '+room[i].round+' (1)');
 
 		}

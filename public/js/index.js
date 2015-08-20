@@ -65,6 +65,9 @@ function init(){
     else if(data.type==2){
       $.notify("The room is already full!","error");
     }
+    else if(data.type==3){
+      $.notify("The game has already started!","error");
+    }
   })
 
   socket.on('Denied',function(data){
