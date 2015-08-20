@@ -216,6 +216,14 @@ io.on("connection", function(socket){
                 }
                 else{
                     _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, participants:event.participants, who:event.who, round:event.round});
+                if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='k'&& room[data.RoomNo-1].stage[1].event.length>0){
+                for(var i=0;i<room[data.RoomNo-1].stage[1].event.length;i++){
+                socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});}
+               }
+               else if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='p'&&room[data.RoomNo-1].stage[0].event.length>0){
+                for(var i=0;i<room[data.RoomNo-1].stage[0].event.length;i++){
+                socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});}
+               }
                 }
             }
             _.findWhere(room[data.RoomNo-1].users, {id:id}).events.sent=1;
