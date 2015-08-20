@@ -386,8 +386,9 @@ io.on("connection", function(socket){
     		_.findWhere(room[no].users, {id:data.sender}).msg = data.reciever;
             var police = [];
     		for(var i=0;i<room[no].users.length;i++){
-                if(room[no].users[i].who=='p' && room[no].users[i].socket!=undefined){
-    			room[no].users[i].socket.emit('message',{type:0,sender:data.sender, reciever:data.reciever});
+                if(room[no].users[i].who=='p'){
+                if(room[no].users[i].socket!=undefined){
+    			room[no].users[i].socket.emit('message',{type:0,sender:data.sender, reciever:data.reciever});}
                 police.push({index:i});};
     		}
             room[no].stage[0].event.push({type:0, sender:data.sender, reciever:data.reciever});
@@ -446,8 +447,9 @@ io.on("connection", function(socket){
 
             if(all==1){
             for(var i=0;i<room[no].users.length;i++){
-                if(room[no].users[i].who=='k'&& room[no].users[i].socket!=undefined){
-                room[no].users[i].socket.emit('update',{type:1, reciever:data.reciever});
+                if(room[no].users[i].who=='k'){
+                if(room[no].users[i].socket!=undefined){
+                room[no].users[i].socket.emit('update',{type:1, reciever:data.reciever});}
                 room[no].users[i].msg=undefined;}}
                 room[no].killed = data.reciever;
                 room[no].victim = _.findWhere(room[no].users, {id:data.reciever}).who;
