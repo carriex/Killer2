@@ -133,8 +133,7 @@ io.on("connection", function(socket){
             var event=_.findWhere(room[data.RoomNo-1].users, {id:data.id}).events;
             if(event.status==0){
                _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket.emit('startGame',{participants:event.participants, who:event.who});
-
-            }
+           }
             else if(event.status==1){
                 if(event.stage==4){
                     _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket.emit('nextStep',{stage:4, reciever:event.reciever, who:event.who, type:event.type});
@@ -142,8 +141,11 @@ io.on("connection", function(socket){
                 else if(event.stage==5){
                     _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket.emit('nextStep',{stage:5, max:event.max, participants:event.participants});
                 }
-                else{
+                else if(event.stage==1){
                     _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, participants:event.participants, who:event.who});
+                }
+                else{
+                    _.findWhere(room[data.RoomNo-1].users, {id:data.id}).socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, participants:event.participants, who:event.who, round:event.round});
                 }
             }
             _.findWhere(room[data.RoomNo-1].users, {id:data.id}).events.sent=1;
@@ -192,6 +194,14 @@ io.on("connection", function(socket){
             var event=_.findWhere(room[data.RoomNo-1].users, {id:id}).events;
             if(event.status==0){
                _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('startGame',{participants:event.participants, who:event.who});
+                if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='k'&& room[data.RoomNo-1].stage[1].event.length>0){
+                for(var i=0;i<room[data.RoomNo-1].stage[1].event.length;i++){
+                socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});}
+               }
+               else if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='p'&&room[data.RoomNo-1].stage[0].event.length>0){
+                for(var i=0;i<room[data.RoomNo-1].stage[0].event.length;i++){
+                socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});}
+               }
 
             }
             else if(event.status==1){
@@ -201,24 +211,18 @@ io.on("connection", function(socket){
                 else if(event.stage==5){
                     _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('nextStep',{stage:5, max:event.max, participants:event.participants});
                 }
-                else{
+                else if(event.stage==1){
                     _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, participants:event.participants, who:event.who});
+                }
+                else{
+                    _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, participants:event.participants, who:event.who, round:event.round});
                 }
             }
             _.findWhere(room[data.RoomNo-1].users, {id:id}).events.sent=1;
 
     }
 
-        if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='k'&& data.stage<room[data.RoomNo-1].stage[1].event.length){
-            for(var i=data.stage;i<room[data.RoomNo-1].stage[1].event.length;i++){
-                socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});
-        }
-    }
-        else if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who =='p' &&data.stage<room[data.RoomNo-1].stage[0].event.length){
-            for(var i=data.stage;i<room[data.RoomNo-1].stage[0].event.length;i++){
-                socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});
-        }
-    }
+
 
 
         }
@@ -365,7 +369,7 @@ io.on("connection", function(socket){
              room[i].police=k;
              room[i].citizen=room[i].number-room[i].ppl;
              room[i].round++;
-             console.log('Room'+room[i].id+', Round '+room[i].round);
+             console.log('Room'+room[i].id+', Round '+room[i].round+' (1)');
 
 		}
 	}})
@@ -407,8 +411,9 @@ io.on("connection", function(socket){
                     verify=0;
                 }
                 for(var i=0;i<room[no].users.length;i++){
-                if(room[no].users[i].who=='p' && room[no].users[i].socket!=undefined){
-                room[no].users[i].socket.emit('update',{type:0, reciever:data.reciever, verify:verify});
+                if(room[no].users[i].who=='p'){
+                if(room[no].users[i].socket!=undefined){
+                room[no].users[i].socket.emit('update',{type:0, reciever:data.reciever, verify:verify});}
                 room[no].users[i].msg=undefined;
             }}
 
@@ -420,8 +425,9 @@ io.on("connection", function(socket){
     		_.findWhere(room[no].users, {id:data.sender}).msg=data.reciever;
             var killer = [];
             for(var i=0;i<room[no].users.length;i++){
-                if(room[no].users[i].who=='k'&& room[no].users[i].socket!=undefined){
-                room[no].users[i].socket.emit('message',{type:1,sender:data.sender, reciever:data.reciever});
+                if(room[no].users[i].who=='k'){
+                if(room[no].users[i].socket!=undefined){
+                room[no].users[i].socket.emit('message',{type:1,sender:data.sender, reciever:data.reciever});}
                 killer.push({index:i});};
             }
             room[no].stage[1].event.push({type:1, sender:data.sender, reciever:data.reciever});
@@ -457,7 +463,7 @@ io.on("connection", function(socket){
         var type;
         console.log(data.sessionId+"sent");
         var no=data.RoomNo-1;
-        room[no].asked++;
+        room[no].asked++; //there is a bug
         console.log(room[no].asked +' asked');
         if(room[no].asked===room[no].ppl){
             room[no].stage[1].event.splice(0,room[no].stage[1].event.length);
@@ -560,16 +566,16 @@ io.on("connection", function(socket){
                     return data.votes;
                 }).votes;
                 if(maximum==0){
+                room[no].round++;
+                console.log('Room'+room[no].id+', Round '+room[no].round+' (2)');
                 for(var j=0;j<room[no].participants.length;j++){
                 if(room[no].users[j].socket==undefined){
-                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:0};
+                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:0, round:room[no].round};
                 }
                 else{
-                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:1};
-                    room[no].users[j].socket.emit('nextStep',{stage:3, reciever:-1, participants:room[no].participants, who:who});}
+                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:1,round:room[no].round};
+                    room[no].users[j].socket.emit('nextStep',{stage:3, reciever:-1, participants:room[no].participants, who:who, round:room[no].round});}
                     }
-                room[no].round++;
-                console.log('Room'+room[no].id+', Round '+room[no].round);
                 room[no].voted=0;
                 //room[no].stage[2].event.push({stage:3, reciever:-1, participants:room[no].participants, who:who});
                 //room[no].recieved=1;
@@ -631,6 +637,9 @@ io.on("connection", function(socket){
             }
              room[no].voted=0;
 
+            room[no].round++;
+            console.log('Room'+room[no].id+', Round '+room[no].round+' (3)');
+
 
             for(var j=0; j<room[no].users.length; j++){
                 if(room[no].killer==0){
@@ -660,11 +669,11 @@ io.on("connection", function(socket){
             }
                 else{
                 if(room[no].users[j].socket==undefined){
-                    room[no].users[j].events={status:1, stage:3, reciever:reciever, participants:room[no].participants, who:who, sent:0};
+                    room[no].users[j].events={status:1, stage:3, reciever:reciever, participants:room[no].participants, who:who, sent:0, round:room[no].round};
                 }
                 else{
-                room[no].users[j].events={status:1, stage:3, reciever:reciever, participants:room[no].participants, who:who, sent:1};
-                room[no].users[j].socket.emit('nextStep',{stage:3, reciever:reciever, participants:room[no].participants, who:who});}
+                room[no].users[j].events={status:1, stage:3, reciever:reciever, participants:room[no].participants, who:who, sent:1, round:room[no].round};
+                room[no].users[j].socket.emit('nextStep',{stage:3, reciever:reciever, participants:room[no].participants, who:who, round:room[no].round});}
             }
 
              }
@@ -690,10 +699,6 @@ io.on("connection", function(socket){
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
                 room[no]=null;
-            }
-            else{
-                room[no].round++;
-                console.log('Room'+room[no].id+', Round '+room[no].round);
             }
 
          }
@@ -728,13 +733,15 @@ io.on("connection", function(socket){
             console.log('Player '+r+' recieved '+m+' votes');
 
                 if(m==maximum||maximum==0){
+                room[no].round++;
+                console.log('Room'+room[no].id+', Round '+room[no].round+' (4)');
                     for(var j=0;j<room[no].participants.length;j++){
                 if(room[no].users[j].socket==undefined){
-                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:0};
+                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:0,round:room[no].round};
                 }
                 else{
-                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:1};
-                    room[no].users[j].socket.emit('nextStep',{stage:3, reciever:-1, participants:room[no].participants, who:who});}
+                    room[no].users[j].events={status:1, stage:3, reciever:-1, participants:room[no].participants, who:who, sent:1, round:room[no].round};
+                    room[no].users[j].socket.emit('nextStep',{stage:3, reciever:-1, participants:room[no].participants, who:who, round:room[no].round});}
                     }
                 room[no].voted=0;
                 for(var j=0; j<room[no].participants.length;j++){
@@ -742,8 +749,6 @@ io.on("connection", function(socket){
                 room[no].participants[j].vote.splice(0,room[no].participants[j].vote.length);}
                 //room[no].stage[2].event.push({stage:3, reciever:-1, participants:room[no].participants, who:who});
                 //room[no].recieved=1;
-                room[no].round++;
-                console.log('Room'+room[no].id+', Round '+room[no].round);
                 }
                 else{
                     var reciever=_.max(room[no].participants, function(data){
@@ -790,11 +795,11 @@ io.on("connection", function(socket){
                 }}
                 else{
                  if(room[no].users[j].socket==undefined){
-                    room[no].users[j].events={status:1, stage:6, reciever:reciever, who:who, participants:room[no].participants, sent:0};
+                    room[no].users[j].events={status:1, stage:6, reciever:reciever, who:who, participants:room[no].participants, sent:0, round:room[no].round};
                 }
                 else{
-                room[no].users[j].events={status:1, stage:6, reciever:reciever, who:who, participants:room[no].participants, sent:1};
-                room[no].users[j].socket.emit('nextStep',{stage:6, reciever:reciever, participants:room[no].participants, who:who});}
+                room[no].users[j].events={status:1, stage:6, reciever:reciever, who:who, participants:room[no].participants, sent:1, round:room[no].round};
+                room[no].users[j].socket.emit('nextStep',{stage:6, reciever:reciever, participants:room[no].participants, who:who, round:room[no].round});}
             }
 
              }
@@ -822,10 +827,6 @@ io.on("connection", function(socket){
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
                 room[no]=null;
-            }
-            else{
-                 room[no].round++;
-                 console.log('Room'+room[no].id+', Round '+room[no].round);
             }
 
 

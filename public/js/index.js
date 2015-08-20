@@ -15,7 +15,7 @@ function init(){
   
   var life=-1;
 
-  var round;
+  var round=0;
 
   var voted=0;
   
@@ -55,7 +55,7 @@ function init(){
     $('#user').append('<p>You are player '+data.id+'.</p><p>Now waiting for other users to join</p>');
     playerId=data.id;
     $('#play').append('<h3>Player '+playerId+'</h3>');
-    round=0;
+    round=1;
   })
 
   socket.on('Err',function (data){
@@ -84,6 +84,7 @@ function init(){
     life=1;
     playerId=data.id;
     round=data.round;
+    console.log('current round: '+round);
     $('#user').remove();
     $('#admin').remove();
     $('#user2').remove();
@@ -191,6 +192,8 @@ function init(){
 
     }*/
     else if(data.stage==3){
+    round=data.round;
+    console.log('Round '+round);
     voted=0;
     $('#result').children().remove();
     $('#result').css('display','none');
@@ -212,6 +215,7 @@ function init(){
       if(data.reciever==-1){
         $('#end').append('<p>Nobody is out.</p>');
         $('#end').append('<button id="start'+round+'"">OK</button>');
+        startGame(data.participants);
         $('#start'+round).click({participants:data.participants},startGame1);
       }
 
@@ -234,6 +238,7 @@ function init(){
         $('#end').append('<p>He is a citizen.</p>');
       }*/
       $('#end').append('<button id="start'+round+'"">OK</button>');
+      startGame(data.participants);
       $('#start'+round).click({participants:data.participants},startGame1);}
     }
     }
@@ -317,6 +322,8 @@ function init(){
     }
 
     else if(data.stage==6){
+      round=data.round;
+      console.log('Round '+round);
       voted=0;
       $('#end').children().remove();
       for(var i=0; i<data.participants.length;i++){
@@ -404,18 +411,21 @@ function init(){
     $('#admin').append('<p style="text-align:center">You are Player 1(admin) of Room'+ RoomNo+'. Now waiting for other users to join.</p>');
     playerId=1;
     $('#play').append('<h3>Player '+playerId+'</h3>');
-    round=0;
+    round=1;
 }
   }
 
   function startGame(participants){
 
     //recieved=1;
-    round++;
-
+    //console.log('Round '+round);
+    if(round==1){
     $('#end').children().remove();
-    $('#choose').css('display','block');
-    //$('#choose').append('<p>The night has come...</p><p>The killer is killing people..</p>');
+    $('#choose').css('display','block');}
+    else{
+      $('#choose').css('display','none');
+    }
+    $('#choose').append('<p>The night has come...</p>');
     if(who=='p'){
       $('#choose').append('<p>Polices in this game:');
       for(var i=0;i<participants.length;i++){
@@ -464,52 +474,9 @@ function init(){
 
     //recieved=1;
 
-    round++;
-
     $('#end').children().remove();
     $('#choose').css('display','block');
-    $('#choose').append('<p>The night has come...</p>');
-    if(who=='p'){
-      $('#choose').append('<p>Polices in this game:');
-      for(var i=0;i<event.data.participants.length;i++){
-        if(event.data.participants[i].who=='p'&& event.data.participants[i].life==1){
-          $('#choose').append('<p>Player '+event.data.participants[i].id+';');
-        }
-
-      }
-      $('#choose').append('</p>');
-
-      $('#choose').append('<p>Please select someone to verify. You can modify your choice before achieving agreement with other polices.</p>');
-      $('#choose').append('<div><form action="">');
-          for(var i=0; i<event.data.participants.length;i++){
-        if(event.data.participants[i].who!='p' && event.data.participants[i].life==1){     //sequence of display need to be solved
-        $('#choose').append('<input type="radio" name="killer" id="' + event.data.participants[i].id + 'selected'+round+'"><label for="' + event.data.participants[i].id + 'selected'+round+'">'+event.data.participants[i].id+'</label>');
-        //$('#'+participants[i].id+'selected'+round).click({sender:playerId, reciever:participants[i].id}, action);
-        } //modification needed here...
-    }
-        $('#choose').append('<br><button id="verify'+round+'">Submit</button></form></div>');
-        $('#verify'+round).click({participants:event.data.participants, sender:playerId},action);}
-
-    else if(who=='k'){
-      $('#choose').append('<p>Killers in this game:');
-      for(var i=0;i<event.data.participants.length;i++){
-        if(event.data.participants[i].who=='k'&& event.data.participants[i].life==1){
-          $('#choose').append('<p>Player '+event.data.participants[i].id+';');
-        }
-
-      }
-      $('#choose').append('</p>');
-      $('#choose').append('<p>Please select someone to kill. You can modify your choice before achieving agreement with other killers.</p>');
-      $('#choose').append('<div><form action="">');
-      for(var i=0; i<event.data.participants.length;i++){
-        if(event.data.participants[i].who!='k'&& event.data.participants[i].life==1){     //sequence of display need to be solved
-        $('#choose').append('<input type="radio" name="killer" id="' + event.data.participants[i].id + 'selected'+round+'"><label for="' + event.data.participants[i].id + 'selected'+round+'">'+event.data.participants[i].id+'</label>');
-        //$('#'+participants[i].id+'selected'+round).click({sender:playerId, reciever:participants[i].id}, action);
-        } //modification needed here...
-    }
-        $('#choose').append('<br><button id="verify'+round+'">Submit</button></form></div>');
-        $('#verify'+round).click({participants:event.data.participants, sender:playerId},action);
-    }
+    
 
     }
 
