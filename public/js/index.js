@@ -175,6 +175,9 @@ function init(){
       $('#vote').append('<input type="radio" name="vote" id="notvoted'+round+'"><label for="notvoted'+round+'">Nobody</label>');
       $('#vote').append('<br><button id="subVote'+round+'">submit</button></form></div>');
       $('#subVote'+round).click({participants:data.participants},subVote);
+      if(data.voted==1){
+         $('#subVote'+round).attr('disabled',true);
+      }
 
      /*if(sessionId==data.admin){
       $('#result').append('<button id="discuss'+round+'">End the discussion</button>');
@@ -320,6 +323,9 @@ function init(){
       $('#end').append('<input type="radio" name="vote" id="notvoted2'+round+'"><label for="notvoted2'+round+'">Nobody</label>');
       $('#end').append('<br><button id="subVote2'+round+'">submit</button></form></div>');
       $('#subVote2'+round).click({max:data.max},subVote2);}
+      if(data.voted==1){
+         $('#subVote2'+round).attr('disabled',true);
+      }
 
 
     }
@@ -519,6 +525,7 @@ function init(){
         $.notify("You have submitted your vote.","success");
       }
     }
+    $('#subVote'+round).attr('disabled',true);
   }
 
   function subVote2(event){
@@ -541,6 +548,7 @@ function init(){
         $.notify("You have submitted your vote.","success");
       }
     }
+    $('#subVote2'+round).attr('disabled', true);
 
   }
 
