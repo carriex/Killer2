@@ -361,6 +361,7 @@ function init(){
         $('#end').append('<p>He is a citizen.</p>');
       }*/
       $('#end').append('<button id="start'+round+'"">OK</button>');
+      startGame(data.participants);
       $('#start'+round).click({participants:data.participants},startGame1);}
 
 

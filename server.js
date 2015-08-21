@@ -600,6 +600,9 @@ io.on("connection", function(socket){
                 room[no].voted=0;
                 //room[no].stage[2].event.push({stage:3, reciever:-1, participants:room[no].participants, who:who});
                 //room[no].recieved=1;
+                for(var j=0; j<room[no].participants, j++){
+                    room[no].participants[j].voted=0;
+                }
                 }
                 else{
                 max.push(_.max(room[no].participants, function(data){
@@ -797,6 +800,8 @@ io.on("connection", function(socket){
                 //room[no].recieved=1;
                 }
                 else{
+                    room[no].round++;
+                    console.log('Room'+room[no].id+', Round '+room[no].round+' (6)');
                     var reciever=_.max(room[no].participants, function(data){
                     return data.votes;
                 }).id;
