@@ -148,7 +148,7 @@ function init(){
 
     setTimeout(function(){
         socket.emit('noted',{RoomNo:RoomNo,sessionId:sessionId});
-    },5000);
+    },3000);
 
   })
 
