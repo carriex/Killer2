@@ -612,7 +612,7 @@ io.on("connection", function(socket){
                 max.push(_.max(room[no].participants, function(data){
                     return data.votes;
                 }).id);
-                console.log(max[max.length-1]);
+                console.log('Player'+max[max.length-1]+', '+maximum+' vote(s)');
                 var temp=_.without(room[no].participants,_.findWhere(room[no].participants, {id:max[0]}));
                 m=_.max(temp, function(data){
                     return data.votes;
@@ -626,11 +626,12 @@ io.on("connection", function(socket){
                     m=_.max(temp, function(data){
                     return data.votes;
                 }).votes;
+                    console.log(m+' votes');
                 }
 
                 if(max.length>1){
                     console.log('there is a draw');
-        if(max.length==room[no].participants.length){
+            if(max.length==room[no].participants.length){
             room[no].round++;
             console.log('Room'+room[no].id+', Round '+room[no].round+' (5)');
             for(var j=0;j<room[no].participants.length;j++){
