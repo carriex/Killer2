@@ -405,6 +405,7 @@ function init(){
       $.notify('Please enter a valid room No.','error');
     }
     else{
+    $('#jgame').attr('disabled',true);
     socket.emit('join',{player:sessionId, roomNo:RoomNo,sessionId:sessionId});}
   }
 
@@ -419,7 +420,9 @@ function init(){
     }
     else{
     $('#play').append('<h3>Player '+playerId+'</h3>');
-    socket.emit('updateSocket2',{id:playerId, RoomNo:RoomNo});}
+    socket.emit('updateSocket2',{id:playerId, RoomNo:RoomNo});
+    $('#jgame2').attr('disabled',true);
+  }
 
   }
   
@@ -437,6 +440,7 @@ function init(){
       $.notify('There can be 20 players at most','error');
     }
     else{
+    $('#acon').attr('disabled',true);
     $('#admin').children().remove();
     socket.emit('newRoom',{admin:sessionId, number:number,sessionId:sessionId});
     $('#admin').append('<p style="text-align:center">You are Player 1(admin) of Room'+ RoomNo+'. Now waiting for other users to join.</p>');
