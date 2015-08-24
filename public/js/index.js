@@ -429,6 +429,9 @@ function init(){
     if(number<1||isNaN(number)){
       $.notify('Please enter a valid number','error');
     }
+    else if(number<5){
+      $.notify('There should be at least 5 players','error');
+    }
     else if(number>20){
       $.notify('There can be 20 players at most','error');
     }
