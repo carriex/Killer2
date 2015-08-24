@@ -223,6 +223,7 @@ function init(){
         $('#end').append('<button id="start'+round+'"">OK</button>');
         startGame(data.participants);
         $('#start'+round).click({participants:data.participants},startGame1);
+        
       }
 
       else{
@@ -247,6 +248,11 @@ function init(){
       startGame(data.participants);
       $('#start'+round).click({participants:data.participants},startGame1);}
     }
+
+      if(data.sent==1){
+        $('#start'+round).trigger('click');
+
+      }
     }
     else if(data.stage==4){
     life=0;
@@ -362,7 +368,13 @@ function init(){
       }*/
       $('#end').append('<button id="start'+round+'"">OK</button>');
       startGame(data.participants);
-      $('#start'+round).click({participants:data.participants},startGame1);}
+      $('#start'+round).click({participants:data.participants},startGame1);
+     if(data.sent==1){
+        $('#start'+round).trigger('click');
+
+      }
+
+    }
 
 
     }
