@@ -226,6 +226,9 @@ io.on("connection", function(socket){
                }
                 }
             }
+            else if(event.status==2){
+                _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('joined',{id:event.id, sent:1});
+            }
             _.findWhere(room[data.RoomNo-1].users, {id:id}).events.sent=1;
 
     }
@@ -299,7 +302,8 @@ io.on("connection", function(socket){
 		var msg=null;
         var events;
 		room[i].users.push({sessionId:data.player,socket:socket, id:room[i].users.length+1, msg:msg, events:events});
-		room[i].users[room[i].users.length-1].socket.emit('joined',{id:room[i].users.length});
+		room[i].users[room[i].users.length-1].socket.emit('joined',{id:room[i].users.length, sent:0});
+        room[i].users[room[i].users.length-1].events={status:2, sent:1, id:room[i].users.length};
 
 
 		//when all users are in, assign different roles to them, update properties in users[] and tell the players

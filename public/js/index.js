@@ -54,7 +54,8 @@ function init(){
     $('#user').children().remove();
     $('#user').append('<p>You are player '+data.id+'.</p><p>Now waiting for other users to join</p>');
     playerId=data.id;
-    $('#play').append('<h3>Player '+playerId+'</h3>');
+    if(data.sent==0){
+    $('#play').append('<h3>Player '+playerId+'</h3>');}
     round=1;
   })
 
@@ -427,7 +428,11 @@ function init(){
     //console.log(typeof number);
     if(number<1||isNaN(number)){
       $.notify('Please enter a valid number','error');
-    }else{
+    }
+    else if(number>20){
+      $.notify('There can be 20 players at most','error');
+    }
+    else{
     $('#admin').children().remove();
     socket.emit('newRoom',{admin:sessionId, number:number,sessionId:sessionId});
     $('#admin').append('<p style="text-align:center">You are Player 1(admin) of Room'+ RoomNo+'. Now waiting for other users to join.</p>');
