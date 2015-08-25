@@ -14,11 +14,9 @@ var express = require("express")
 
 , _=require('underscore')
 
-, room = []; //this is the array of object to record room
+, room = [] //this is the array of object to record room
 
-
-
-
+, admin = express();
 
 
 
@@ -42,12 +40,36 @@ app.use(express.static("public", __dirname + "/public"));
 //Tells server to support JSON requests
 app.use(bodyParser.json());
 
+admin.set("ipaddr", "127.0.0.1");
+
+//Server's port number
+//app.set("port", process.env.PORT);
+
+//Specify the views folder
+admin.set("views", __dirname + "/views");
+
+//View engine is Jade
+admin.set("view engine", "jade");
+
+//Specify where the static content is
+admin.use(express.static("public", __dirname + "/public"));
+
+//Tells server to support JSON requests
+admin.use(bodyParser.json());
+
 /* Server routing*/
 
 //Handle route "GET/", as in "http://localhost:8080/"
 app.get("/", function(req,res){
 	res.render("index");
 });
+
+admin.get('/',function(req,res){
+    res.render("admin");
+})
+
+app.use('/admin',admin);
+
 
 /*
 
@@ -122,6 +144,24 @@ io.on("connection", function(socket){
 		//io.sockets.emit("newConnection", {participants:participants});}
 
 	});
+
+    socket.on('admin', function(data){
+       if(room[data.RoomNo-1]==undefined||room[data.RoomNo-1]==null){
+            socket.emit('Err');
+        }
+       else{
+           socket.emit('success');
+       
+        room[data.RoomNo-1].admin=socket;
+        socket.emit('list',{participants:room[data.RoomNo-1].participants, round:room[data.RoomNo-1].round});}
+    })
+
+    socket.on('adminAction',function(data){
+        console.log(data.reciever);
+        _.findWhere(room[data.RoomNo-1].users, {id:data.reciever}).socket=undefined;
+        console.log('Room '+data.RoomNo+', Player '+data.reciever+' disconnects');
+
+    })
 
     socket.on('updateSocket',function(data){
         
@@ -256,7 +296,7 @@ io.on("connection", function(socket){
         var event1=[];
         var event2=[]; //be careful when passing array variable 
         //var event3=[];
-        room[k]={id:k+1, number:data.number, admin:data.admin, users:users, participants:participants,stage:stage, round:0, started:0};//recieved should be added later
+        room[k]={id:k+1, number:data.number, admin:undefined, users:users, participants:participants,stage:stage, round:0, started:0};//recieved should be added later
         room[k].stage.push({event:event1});
         room[k].stage.push({event:event2});
         //room[k].stage.push({event:event3});
@@ -504,6 +544,9 @@ io.on("connection", function(socket){
                     room[no].citizen--;
                 }
             room[no].participants.splice(_.indexOf(room[no].participants, _.findWhere(room[no].participants,{id:room[no].killed})),1);
+            if(room[no].admin!=undefined){
+            room[no].admin.emit('list',{participants:room[no].participants, round:room[no].round});}
+
             console.log('k:'+room[no].killer);
             console.log('p:'+room[no].police);
             console.log('c:'+room[no].citizen);
@@ -559,6 +602,9 @@ io.on("connection", function(socket){
             room[no].asked=0;
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
+                if(room[no].admin!=undefined){
+                    room[no].admin.emit('end');
+                }
                 room[no]=null;
                 console.log('end of the game');
             }
@@ -749,8 +795,13 @@ io.on("connection", function(socket){
             console.log('--------------');
             room[no].users.splice(_.indexOf(room[no].users, _.findWhere(room[no].users,{id:reciever})),1);
             room[no].participants.splice(_.indexOf(room[no].participants, _.findWhere(room[no].participants,{id:reciever})),1);
+            if(room[no].admin!=undefined){
+            room[no].admin.emit('list',{participants:room[no].participants, round:room[no].round});}
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
+                if(room[no].admin!=undefined){
+                    room[no].admin.emit('end');
+                }
                 room[no]=null;
                 console.log('end of the game');
             }
@@ -885,7 +936,13 @@ io.on("connection", function(socket){
             room[no].users.splice(_.indexOf(room[no].users, _.findWhere(room[no].users,{id:reciever})),1);
             room[no].participants.splice(_.indexOf(room[no].participants, _.findWhere(room[no].participants,{id:reciever})),1);
 
+            if(room[no].admin!=undefined){
+            room[no].admin.emit('list',{participants:room[no].participants, round:room[no].round});}
+
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
+                if(room[no].admin!=undefined){
+                    room[no].admin.emit('end');
+                }
                 room[no]=null;
                 console.log('end of the game');
             }
@@ -913,6 +970,10 @@ if(room.length>0){
                     break;
                 }
             }
+        }
+        if(room[j].admin==socket){
+            room[j].admin=undefined;
+            console.log('Room '+(j+1)+' admin disconnects');
         }
     }}
 }

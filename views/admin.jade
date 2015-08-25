@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans')
+    link(rel='stylesheet', href='/css/style.css')  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <b>
+    script(src='//code.jquery.com/jquery-1.11.0.min.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='/js/admin.js')
+    script(src='/js/notify.js') 
+    </b>  
+    title Killer Game Admin page
+  body
+    div#left
+    div#right
+    div#top
+    div#bottom
+    div(style="text-align:center")#title
+     <h1 style="text-align:center">Admin page</h1>
+    div(style="text-align:center")#admin
+      <p style="text-align:center">Please enter Room No</p>
+      input(type="text")#RoomNo
+      input(type="button" value="confirm")#confirm
+    div(style="text-align:center")#list
