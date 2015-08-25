@@ -29,7 +29,7 @@ function init(){
 		round=data.round;
 		$('#list').append('<div><form action="">');
 		for(var i=0; i<data.participants.length; i++){
-			$('#list').append('<input type="radio" id="' + data.participants[i].id + 'selected'+round+'"><label for="' + data.participants[i].id + 'selected'+round+'">'+data.participants[i].id+'</label>');
+			$('#list').append('<input type="radio" name="killer" id="' + data.participants[i].id + 'selected'+round+'"><label for="' + data.participants[i].id + 'selected'+round+'">'+data.participants[i].id+'</label>');
 	}
 	     $('#list').append('<br><button id="confirm'+round+'">Disconnect</button></form></div>');
 	     $('#confirm'+round).click({participants:data.participants},action);
