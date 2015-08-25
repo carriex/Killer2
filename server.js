@@ -560,6 +560,7 @@ io.on("connection", function(socket){
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
                 room[no]=null;
+                console.log('end of the game');
             }
         }
     })
@@ -751,6 +752,7 @@ io.on("connection", function(socket){
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
                 room[no]=null;
+                console.log('end of the game');
             }
 
          }
@@ -885,6 +887,7 @@ io.on("connection", function(socket){
 
             if(room[no].killer==0||room[no].police==0||room[no].citizen==0){
                 room[no]=null;
+                console.log('end of the game');
             }
 
 
