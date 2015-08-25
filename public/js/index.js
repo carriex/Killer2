@@ -62,24 +62,31 @@ function init(){
   socket.on('Err',function (data){
     if(data.type==1){
       $.notify("The Room No doesn't exit. Please enter a valid room no.","error");
+      $('#jgame2').attr('disabled',false);
+      $('#jgame').attr('disabled',false);
     }
     else if(data.type==2){
       $.notify("The room is already full!","error");
+      $('#jgame').attr('disabled',false);
     }
     else if(data.type==3){
       $.notify("The game has already started!","error");
+      $('#jgame').attr('disabled',false);
     }
   })
 
   socket.on('Denied',function(data){
     if(data.type==0){
        $.notify("The Player No doesn't exit. Please enter a valid playerId.","error");
+       $('#jgame2').attr('disabled',false);
     }
     else if(data.type==1){
       $.notify("You can't join this room because you are dead or you are out.","error");
+      $('#jgame2').attr('disabled',false);
     }
     else if(data.type==2){
       $.notify("This player is already in the room.","error");
+      $('#jgame2').attr('disabled',false);
     }
   })
 

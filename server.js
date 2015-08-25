@@ -20,6 +20,8 @@ var express = require("express")
 
 
 
+
+
 /*Server config*/
 
 //Server's IP address
@@ -46,7 +48,6 @@ app.use(bodyParser.json());
 app.get("/", function(req,res){
 	res.render("index");
 });
-
 
 /*
 
