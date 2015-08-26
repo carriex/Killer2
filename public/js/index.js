@@ -90,6 +90,10 @@ function init(){
     }
   })
 
+  socket.on('success2',function(){
+    $('#play').append('<h3>Room '+RoomNo+', Player '+playerId+'</h3>');
+  })
+
   socket.on('updated',function(data){
     who=data.who;
     life=1;
@@ -137,7 +141,7 @@ function init(){
   })
 
   socket.on('update',function(data){
-    stage=0;
+    stage++;
     $('#verify'+round).attr('disabled',true);
     if(data.type==0){
       $('#choose').append('<p>Person to verify: Player '+data.reciever+'</p>');
@@ -153,9 +157,11 @@ function init(){
       $('#choose').append('<p>At the end, Player '+data.reciever+' is killed</p>');
     }
 
+    if(data.sent==0){
+
     setTimeout(function(){
         socket.emit('noted',{RoomNo:RoomNo,sessionId:sessionId});
-    },3000);
+    },3000);}
 
   })
 
@@ -163,6 +169,7 @@ function init(){
   socket.on('nextStep', function(data){
      //recieved=0;
      if(data.stage==1){
+      stage=0;
       $('#choose').children().remove();
       $('#initial').remove();
       $('#identity').remove();
@@ -435,7 +442,6 @@ function init(){
      $.notify('Please enter a valid PlayerId','error');
     }
     else{
-    $('#play').append('<h3>Room '+RoomNo+', Player '+playerId+'</h3>');
     socket.emit('updateSocket2',{id:playerId, RoomNo:RoomNo});
     $('#jgame2').attr('disabled',true);
   }

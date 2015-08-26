@@ -195,12 +195,24 @@ io.on("connection", function(socket){
 
         if(data.who=='k'&& data.stage<room[data.RoomNo-1].stage[1].event.length){
             for(var i=data.stage;i<room[data.RoomNo-1].stage[1].event.length;i++){
-                socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});
+                if(room[data.RoomNo-1].stage[1].event[i].stage==0){
+                    socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});
+                }
+                else{
+                    socket.emit('update',{type:1, reciever:room[data.RoomNo-1].stage[1].event[i].reciever, sent:room[data.RoomNo-1].stage[1].event[i].sent});
+                    break;
+                }
+                
         }
     }
         else if(data.who=='p' &&data.stage<room[data.RoomNo-1].stage[0].event.length){
             for(var i=data.stage;i<room[data.RoomNo-1].stage[0].event.length;i++){
-                socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});
+                if(room[data.RoomNo-1].stage[0].event[i].stage==0){
+                socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});}
+                else{
+                socket.emit('update',{type:0, reciever:room[data.RoomNo-1].stage[0].event[i].reciever, verify:room[data.RoomNo-1].stage[0].event[i].verify, sent:room[data.RoomNo-1].stage[0].event[i].sent});
+                break;
+                }
         }
     }
     }
@@ -225,6 +237,7 @@ io.on("connection", function(socket){
 
         }
         else{
+        socket.emit('success2');
         console.log('reconnection succeeds');
         _.findWhere(room[data.RoomNo-1].users, {id:id}).socket = socket;
         _.findWhere(room[data.RoomNo-1].users, {id:id}).sessionId = data.sessionId;
@@ -237,11 +250,24 @@ io.on("connection", function(socket){
                _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('startGame',{participants:event.participants, who:event.who});
                 if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='k'&& room[data.RoomNo-1].stage[1].event.length>0){
                 for(var i=0;i<room[data.RoomNo-1].stage[1].event.length;i++){
-                socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});}
+                if(room[data.RoomNo-1].stage[1].event[i].stage==0){
+                    socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});
+                }
+                else{
+                    socket.emit('update',{type:1, reciever:room[data.RoomNo-1].stage[1].event[i].reciever, sent:room[data.RoomNo-1].stage[1].event[i].sent});
+                    break;
+                }
+            }
                }
                else if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='p'&&room[data.RoomNo-1].stage[0].event.length>0){
                 for(var i=0;i<room[data.RoomNo-1].stage[0].event.length;i++){
+                if(room[data.RoomNo-1].stage[0].event[i].stage==0){
                 socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});}
+                else{
+                socket.emit('update',{type:0, reciever:room[data.RoomNo-1].stage[0].event[i].reciever, verify:room[data.RoomNo-1].stage[0].event[i].verify, sent:room[data.RoomNo-1].stage[0].event[i].sent});
+                break;
+                }
+            }
                }
 
             }
@@ -259,17 +285,32 @@ io.on("connection", function(socket){
                     _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('nextStep',{stage:event.stage, reciever:event.reciever, participants:event.participants, who:event.who, round:event.round, sent:event.sent});
                 if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='k'&& room[data.RoomNo-1].stage[1].event.length>0){
                 for(var i=0;i<room[data.RoomNo-1].stage[1].event.length;i++){
-                socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});}
+            if(room[data.RoomNo-1].stage[1].event[i].stage==0){
+                    socket.emit('message',{type:1,sender:room[data.RoomNo-1].stage[1].event[i].sender, reciever:room[data.RoomNo-1].stage[1].event[i].reciever});
+                }
+                else{
+                    socket.emit('update',{type:1, reciever:room[data.RoomNo-1].stage[1].event[i].reciever, sent:room[data.RoomNo-1].stage[1].event[i].sent});
+                break;
+                }
+            }
                }
                else if(_.findWhere(room[data.RoomNo-1].users, {id:id}).who=='p'&&room[data.RoomNo-1].stage[0].event.length>0){
                 for(var i=0;i<room[data.RoomNo-1].stage[0].event.length;i++){
+                if(room[data.RoomNo-1].stage[0].event[i].stage==0){
                 socket.emit('message',{type:0,sender:room[data.RoomNo-1].stage[0].event[i].sender, reciever:room[data.RoomNo-1].stage[0].event[i].reciever});}
+                else{
+                socket.emit('update',{type:0, reciever:room[data.RoomNo-1].stage[0].event[i].reciever, verify:room[data.RoomNo-1].stage[0].event[i].verify, sent:room[data.RoomNo-1].stage[0].event[i].sent});
+                break;
+                }
+            }
                }
                 }
             }
             else if(event.status==2){
                 _.findWhere(room[data.RoomNo-1].users, {id:id}).socket.emit('joined',{id:event.id, sent:1});
             }
+
+
             _.findWhere(room[data.RoomNo-1].users, {id:id}).events.sent=1;
 
     }
@@ -451,7 +492,7 @@ io.on("connection", function(socket){
     			room[no].users[i].socket.emit('message',{type:0,sender:data.sender, reciever:data.reciever});}
                 police.push({index:i});};
     		}
-            room[no].stage[0].event.push({type:0, sender:data.sender, reciever:data.reciever});
+            room[no].stage[0].event.push({stage:0, type:0, sender:data.sender, reciever:data.reciever});
 
             var all=1;
 
@@ -473,8 +514,13 @@ io.on("connection", function(socket){
                 }
                 for(var i=0;i<room[no].users.length;i++){
                 if(room[no].users[i].who=='p'){
-                if(room[no].users[i].socket!=undefined){
-                room[no].users[i].socket.emit('update',{type:0, reciever:data.reciever, verify:verify});}
+                if(room[no].users[i].socket!=undefined){ 
+                room[no].users[i].socket.emit('update',{type:0, reciever:data.reciever, verify:verify, sent:0});
+                room[no].stage[0].event.push({stage:1, type:0, reciever:data.reciever, verify:verify, sent:1});
+            }
+            else{
+                room[no].stage[0].event.push({stage:1, type:0, reciever:data.reciever, verify:verify, sent:0});
+            }
                 room[no].users[i].msg=undefined;
             }}
 
@@ -491,7 +537,7 @@ io.on("connection", function(socket){
                 room[no].users[i].socket.emit('message',{type:1,sender:data.sender, reciever:data.reciever});}
                 killer.push({index:i});};
             }
-            room[no].stage[1].event.push({type:1, sender:data.sender, reciever:data.reciever});
+            room[no].stage[1].event.push({stage:0, type:1, sender:data.sender, reciever:data.reciever});
 
 
 
@@ -508,9 +554,15 @@ io.on("connection", function(socket){
             if(all==1){
             for(var i=0;i<room[no].users.length;i++){
                 if(room[no].users[i].who=='k'){
-                if(room[no].users[i].socket!=undefined){
-                room[no].users[i].socket.emit('update',{type:1, reciever:data.reciever});}
-                room[no].users[i].msg=undefined;}}
+            if(room[no].users[i].socket!=undefined){
+                room[no].users[i].socket.emit('update',{type:1, reciever:data.reciever, sent:0});
+                room[no].stage[1].event.push({stage:1, type:1, reciever:data.reciever, sent:1});
+            }
+            else{
+                room[no].stage[1].event.push({stage:1, type:1, reciever:data.reciever, sent:0});
+            }
+                room[no].users[i].msg=undefined;}
+            }
                 room[no].killed = data.reciever;
                 room[no].victim = _.findWhere(room[no].users, {id:data.reciever}).who;
                 _.findWhere(room[no].participants, {id:data.reciever}).life=0;
