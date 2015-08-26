@@ -158,10 +158,8 @@ function init(){
     }
 
     if(data.sent==0){
-
-    setTimeout(function(){
-        socket.emit('noted',{RoomNo:RoomNo,sessionId:sessionId});
-    },3000);}
+      socket.emit('noted',{RoomNo:RoomNo,sessionId:sessionId});
+  }
 
   })
 

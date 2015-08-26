@@ -577,9 +577,10 @@ io.on("connection", function(socket){
         var type;
         console.log(data.sessionId+"sent");
         var no=data.RoomNo-1;
-        room[no].asked++; //there is a bug
+        room[no].asked++;
         console.log(room[no].asked +' asked');
         if(room[no].asked===room[no].ppl){
+        setTimeout(function(){
             console.log('all polices and killers action done');
             room[no].stage[1].event.splice(0,room[no].stage[1].event.length);
             room[no].stage[0].event.splice(0,room[no].stage[0].event.length);
@@ -660,6 +661,7 @@ io.on("connection", function(socket){
                 room[no]=null;
                 console.log('end of the game');
             }
+                },3000);
         }
     })
 
