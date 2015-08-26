@@ -273,6 +273,15 @@ function init(){
       $('#vote').children().remove();
       $('#vote').css('display','none');
       $('#end').css('display','block');
+      for(var i=0; i<data.participants.length;i++){
+        if(data.participants[i].vote.length>0){
+          $('#end').append('<p>Player '+data.participants[i].id+' is voted by:</p>');
+          for(var j=0; j<data.participants[i].vote.length;j++){
+            $('#end').append('<p>Player'+data.participants[i].vote[j].id+'</p>');
+          }
+          $('#end').append('<p>----------------------------</p>');
+        }
+       }
       if(playerId==data.reciever){
         life=0;
          $('#end').append('<p>Sorry, you are out.</p>');
